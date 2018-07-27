@@ -30,7 +30,7 @@ int main() {
 	}
 	storageBarrier(snake);					/*把边界，障碍物，蛇身，食物的二维坐标转换为数组的一维下标存起来，分别为1， 2， 3， 4*/
 	makeFood(snake, foodCount, foodPoint);
-
+	
 	while(!finished) {
 		/*控制按键相关操作*/
 		if(bioskey(1)) {
@@ -42,7 +42,7 @@ int main() {
 		if(count > initialSpeed) {
 			count = 0;
 			moveSnake(&snake, directionIndex);
-			checkBarrier(&snake, &finished, &foodCount);
+			checkBarrier(&snake, &finished, &foodCount, foodPoint);
 			storageBarrier(snake);
 			dataDisplay(initialSpeed, foodCount, snake);
 			if(foodCount <= 0) {

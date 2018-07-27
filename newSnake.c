@@ -9,24 +9,25 @@ const char *showSnakeHead = "^v<>";
 const DELTA_MOVE deltaMove[4] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 short barrierArray[1625];
 
-void checkBarrier(SNAKE *snake, int *finished, int *foodCount) {
+void checkBarrier(SNAKE *snake, int *finished, int *foodCount, FOOD_POINT *foodPoint) {
 	int col = snake->snakeBody[snake->head].bodyCol;
 	int row = snake->snakeBody[snake->head].bodyRow;
 	int snakeHeadElement = barrierArray[(row - 1) * 65 + col - 1];
 	int i;
 
-	if(snakeHeadElement == 1) {
+	if(snakeHeadElement == 1 || snakeHeadElement == 2 || snakeHeadElement == 3) {
 		*finished = 1;
 	}
-	if(snakeHeadElement == 2) {
-		*finished = 1;
-	}
-	if(snakeHeadElement == 3) {
-		*finished = 1;
-	}
-	if(barrierArray[(row - 1) * 65 + col - 1] == 4) {
+
+	if(snakeHeadElement == 4) {
 		(snake->len)++;
 		--(*foodCount);
+	}
+
+	for(i = 0; i < *foodCount; i++) {
+		if((foodPoint[i].foodRow - 1) * 65 + foodPoint[i].foodCol - 1 == 3) {
+			makeFood(*snake, *foodCount, foodPoint);
+		}
 	}
 }
 
@@ -170,6 +171,7 @@ void makeFood(SNAKE snake, int foodCount, FOOD_POINT *foodPoint) {
 		foodPoint[i].foodRow = screen[randIndex] / 63 + 2;
 		gotoxy(foodPoint[i].foodCol, foodPoint[i].foodRow);
 		putchar('O');
+		/*食物的二维坐标转换为数组的一维下标存起来，为4*/
 		barrierArray[(foodPoint[i].foodRow - 1) * 65 + foodPoint[i].foodCol - 1] = 4;
 		swap(&screen[randIndex], &screen[count]);
 	}

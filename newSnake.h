@@ -49,6 +49,6 @@ void swap(short *a, short *b);
 void drowGameBorder();
 void dataDisplay(int initialSpeed, int foodCount, SNAKE snake);
 void storageBarrier(SNAKE snake);
-void checkBarrier(SNAKE *snake, int *finished, int *foodCount);
+void checkBarrier(SNAKE *snake, int *finished, int *foodCount, FOOD_POINT *foodPoint);
 
 #endif
